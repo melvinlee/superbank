@@ -71,14 +71,14 @@ module "alb" {
       ssl_policy      = "ELBSecurityPolicy-TLS13-1-2-Res-2021-06"
       certificate_arn = aws_acm_certificate.cert.arn
       forward = {
-        target_group_key = "instance"
+        target_group_key = "appserver-blue"
       }
     }
   }
 
   target_groups = {
-    instance = {
-      name_prefix                       = "api-"
+    appserver-blue = {
+      name_prefix                       = "app-"
       protocol                          = "HTTP"
       port                              = 80
       deregistration_delay              = 5
