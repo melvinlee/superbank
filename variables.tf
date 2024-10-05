@@ -1,7 +1,7 @@
 variable "name" {
-    description = "The name of the resource"
-    type        = string
-    default     = "my-1stbank"
+  description = "The name of the resource"
+  type        = string
+  default     = "mybank"
 }
 
 variable "region" {
@@ -10,3 +10,14 @@ variable "region" {
   default     = "ap-southeast-1"
 }
 
+ variable "environment" {
+      type        = string
+      description = "The environment of the infrastructure"
+      default     = "development"
+    }
+
+variable "domain_name" {
+  description = "The domain name for the ALB."
+  type        = string
+  default     = "powerbank.com"
+}
