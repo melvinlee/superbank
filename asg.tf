@@ -55,6 +55,24 @@ module "appserver_asg" {
   ebs_optimized     = true
   enable_monitoring = false
 
+  # FinOps - Shutdown the development instances during the night and in the morning
+  schedules = {
+    night = {
+      min_size         = 0
+      max_size         = 0
+      desired_capacity = 0
+      recurrence       = "0 20 * * 1-5" # Mon-Fri in the evening
+      time_zone        = "Asia/Singapore"
+    }
+
+    morning = {
+      min_size         = 0
+      max_size         = 1
+      desired_capacity = 1
+      recurrence       = "0 8 * * 1-5" # Mon-Fri in the morning
+      time_zone        = "Asia/Singapore"
+    }
+  }
 
   instance_market_options = {
     market_type = "spot"
