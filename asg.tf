@@ -74,6 +74,21 @@ module "appserver_asg" {
     }
   }
 
+  # Target scaling policy schedule based on Load Balancer Queue - ALBRequestCountPerTarget metric 
+  scaling_policies = {
+    request-count-per-target = {
+      policy_type               = "TargetTrackingScaling"
+      estimated_instance_warmup = 60
+      target_tracking_configuration = {
+        predefined_metric_specification = {
+          predefined_metric_type = "ALBRequestCountPerTarget"
+          resource_label         = "${module.alb.arn_suffix}/${module.alb.target_groups["appserver-blue"].arn_suffix}"
+        }
+        target_value = 800
+      }
+    }
+  }
+
   instance_market_options = {
     market_type = "spot"
   }
