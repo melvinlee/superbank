@@ -9,7 +9,8 @@
 # }
 
 module "alb" {
-  source = "terraform-aws-modules/alb/aws"
+  source  = "terraform-aws-modules/alb/aws"
+  version = "~> 9.0"
 
   name    = "${local.name}-${local.environment}-alb"
   vpc_id  = module.vpc.vpc_id
@@ -77,14 +78,19 @@ module "alb" {
 
   target_groups = {
     instance = {
-      name_prefix = "api"
-      protocol    = "HTTP"
-      port        = 80
-      target_type = "instance"
-      target_id   = ""
+      name_prefix                       = "api-"
+      protocol                          = "HTTP"
+      port                              = 80
+      deregistration_delay              = 5
+      target_type                       = "instance"
+      load_balancing_cross_zone_enabled = true
+
+      # There's nothing to attach here in this definition.
+      # The attachment happens in the ASG module above
+      create_attachment = false
     }
   }
-  
+
   tags = local.tags
 }
 
