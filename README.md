@@ -23,5 +23,5 @@ terraform apply myaws.tfplan
 You can cleanup the Terraform-managed infrastructure.
 
 ```sh
-terraform destroy -var-file=development.tfvars -force
+terraform destroy -var-file=development.tfvars
 ```
