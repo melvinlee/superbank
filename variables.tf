@@ -153,3 +153,13 @@ variable "deletion_protection_enabled" {
   type        = bool
   default     = false   
 }
+
+##########################################################
+# Instance Profile configuration
+##########################################################
+
+variable "create_iam_instance_profile" {
+  description = "Create an IAM instance profile for the EC2 instances"
+  type        = bool
+  default     = true
+}

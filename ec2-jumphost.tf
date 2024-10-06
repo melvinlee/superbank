@@ -28,6 +28,13 @@ module "ec2_jumphost" {
   subnet_id                   = element(module.vpc.public_subnets, 0)
   vpc_security_group_ids      = [module.jumphost_sg.security_group_id]
   associate_public_ip_address = true
+  iam_instance_profile        = module.instance_profile_dynamodb.name
+
+  # create_iam_instance_profile = true
+  # iam_role_description        = "IAM role for EC2 instance"
+  # iam_role_policies = {
+  #   AmazonDynamoDBFullAccess = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+  # }
 
   user_data_base64            = base64encode(local.jumphost_user_data)
   user_data_replace_on_change = true
@@ -46,6 +53,17 @@ module "jumphost_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks = [var.ingress_cidr_blocks]
+
+  tags = local.tags
+}
+
+module "instance_profile_dynamodb" {
+  source = "./modules/instance-profile-dynamodb"
+
+  create_iam_instance_profile = true
+
+  aws_kms_key_arn    = aws_kms_key.primary.arn
+  dynamodb_table_arn = module.dynamodb_table.dynamodb_table_arn
 
   tags = local.tags
 }
