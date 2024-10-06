@@ -39,6 +39,7 @@ module "appserver_asg" {
 
   security_groups = [module.asg_sg.security_group_id]
 
+  iam_instance_profile_name = module.instance_profile_dynamodb_for_asg.name
   #   iam_instance_profile_arn = aws_iam_instance_profile.ssm.arn
 
   traffic_source_attachments = {
@@ -57,7 +58,7 @@ module "appserver_asg" {
   }
 
   ebs_optimized     = true
-  enable_monitoring = local.environment == "development"  ? false : true
+  enable_monitoring = local.environment == "development" ? false : true
 
   # FinOps - Shutdown the development instances during the night and in the morning
   schedules = {
@@ -133,4 +134,16 @@ data "aws_ami" "amazon_linux" {
       "amzn2-ami-hvm-*-x86_64-gp2",
     ]
   }
+}
+
+
+module "instance_profile_dynamodb_for_asg" {
+  source = "./modules/instance-profile-dynamodb"
+
+  create_iam_instance_profile = true
+
+  aws_kms_key_arn    = aws_kms_key.primary.arn
+  dynamodb_table_arn = module.dynamodb_table.dynamodb_table_arn
+
+  tags = local.tags
 }

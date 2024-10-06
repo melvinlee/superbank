@@ -8,6 +8,8 @@ Welcome to the SuperBank application. The following guide will help to deploy th
 - Official guide - https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli 
 - Using tfenv - https://github.com/tfutils/tfenv
 
+
+
 ## Provisioning
 
 Run `terraform init` then `terraform plan` to see what will be created, finally if it looks good run terraform apply
