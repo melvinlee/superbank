@@ -53,7 +53,7 @@ module "appserver_asg" {
   }
 
   ebs_optimized     = true
-  enable_monitoring = false
+  enable_monitoring = local.environment == "development"  ? false : true
 
   # FinOps - Shutdown the development instances during the night and in the morning
   schedules = {
