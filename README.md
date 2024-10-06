@@ -8,7 +8,22 @@ Welcome to the SuperBank application. The following guide will help to deploy th
 - Official guide - https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli 
 - Using tfenv - https://github.com/tfutils/tfenv
 
+## Folder
 
+```
+.
+├── apps
+├── environments
+├── modules
+│   ├── instance-profile-dynamodb
+│   └── self-signed-acm
+└── user-data
+```
+
+- apps: Contain python REST API application. 
+- environments: Contains environment-specific configurations.
+- modules: Contains reusable Terraform modules.
+- user-data: Contains bootstrap script for autoscaling group.
 
 ## Provisioning
 
