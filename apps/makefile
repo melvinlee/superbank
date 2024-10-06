@@ -1,6 +1,6 @@
 # Define variables
 IMAGE_NAME = cash-api
-IMAGE_TAG = latest
+IMAGE_TAG = 0.1-db
 CONTAINER_NAME = cash-api-container
 PORT = 80
 DOCKER_USERNAME = melvinlee
