@@ -23,6 +23,18 @@ variable "environment" {
   default     = "development"
 }
 
+
+##########################################################
+# VPC configuration
+##########################################################
+
+variable "create_vpn_endpoints" {
+  description = "Create VPC endpoints for S3 and DynamoDB"
+  type        = bool
+  default     = true
+
+}
+
 ##########################################################
 # Using self signed certificate for ALB
 ##########################################################
@@ -31,7 +43,7 @@ variable "create_self_signed_cert" {
   description = "Create a self-signed certificate"
   type        = bool
   default     = true
-  
+
 }
 
 variable "domain_name" {
@@ -44,7 +56,7 @@ variable "organization" {
   description = "The organization name for the certificate."
   type        = string
   default     = "myBankCo."
-  
+
 }
 
 ##########################################################
@@ -55,7 +67,7 @@ variable "custom_cert_arn" {
   description = "The ARN of the custom certificate to use for the ALB."
   type        = string
   default     = ""
-  
+
 }
 
 ##########################################################
