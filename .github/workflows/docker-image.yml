@@ -3,12 +3,8 @@ name: Docker Image CI
 on:
   push:
     branches: ["release/apps"]
-    paths:
-      - apps/**
   pull_request:
     branches: ["release/apps"]
-    paths:
-      - apps/**
 
 jobs:
 
