@@ -118,3 +118,38 @@ variable "ingress_cidr_blocks" {
   type        = string
   default     = "3.0.5.32/29"
 }
+
+
+##########################################################
+# DynamoDB configuration
+##########################################################
+
+variable "create_table" {
+  description = "Create a DynamoDB table for AccountBalance"
+  type        = bool
+  default     = true
+  
+}
+variable "read_capacity" {
+  description = "The read capacity for the DynamoDB table"
+  type        = number
+  default     = 0
+}
+
+variable "write_capacity" {
+  description = "The write capacity for the DynamoDB table"
+  type        = number
+  default     = 0
+}
+
+variable "autoscaling_enabled" {
+  description = "Enable autoscaling for the DynamoDB table"
+  type        = bool
+  default     = false
+}
+
+variable "deletion_protection_enabled" {
+  description = "Enable deletion protection for the DynamoDB table"
+  type        = bool
+  default     = false   
+}
