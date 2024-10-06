@@ -10,8 +10,8 @@ yum install -y docker
 service docker start
 usermod -a -G docker ec2-user
 
-# Start docker nginx
-docker run -d -p 80:80 nginx 
+# Start docker cash-api
+docker run --platform linux/amd64 -d -p 80:8443 docker.io/melvinlee/cash-api
 docker container ls 
 
 echo 'Done initialization'

@@ -14,7 +14,7 @@ module "self_signed_cert" {
   create_certificate = var.create_self_signed_cert
   domain_name        = var.domain_name
   organization       = var.organization
-} 
+}
 
 module "application_alb" {
   source  = "terraform-aws-modules/alb/aws"
@@ -77,7 +77,7 @@ module "application_alb" {
       port            = 443
       protocol        = "HTTPS"
       ssl_policy      = "ELBSecurityPolicy-TLS13-1-2-Res-2021-06"
-      certificate_arn =  var.create_self_signed_cert ? module.self_signed_cert.acm_certificate_arn : var.custom_cert_arn
+      certificate_arn = var.create_self_signed_cert ? module.self_signed_cert.acm_certificate_arn : var.custom_cert_arn
       forward = {
         target_group_key = "appserver-blue"
       }
@@ -96,6 +96,17 @@ module "application_alb" {
       # There's nothing to attach here in this definition.
       # The attachment happens in the ASG module above
       create_attachment = false
+
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/health"
+        healthy_threshold   = 2
+        unhealthy_threshold = 2
+        timeout             = 5
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
     }
   }
 
