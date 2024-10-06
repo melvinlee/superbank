@@ -12,6 +12,10 @@ locals {
     amazon-linux-extras install nginx1.12
     systemctl start nginx
   EOT
+
+  userdata = templatefile("./user-data/bootstrap.sh.tpl", {
+    image = "nginx:latest"
+  })
 }
 
 module "appserver_asg" {
@@ -30,7 +34,7 @@ module "appserver_asg" {
 
   image_id           = data.aws_ami.amazon_linux.id
   instance_type      = var.app_instance_type
-  user_data          = base64encode(local.user_data)
+  user_data          = base64encode(local.userdata)
   capacity_rebalance = true
 
   security_groups = [module.asg_sg.security_group_id]
@@ -39,7 +43,7 @@ module "appserver_asg" {
 
   traffic_source_attachments = {
     alb = {
-      traffic_source_identifier = module.alb.target_groups["appserver-blue"].arn
+      traffic_source_identifier = module.application_alb.target_groups["appserver-blue"].arn
       traffic_source_type       = "elbv2" # default
     }
   }
@@ -82,7 +86,7 @@ module "appserver_asg" {
       target_tracking_configuration = {
         predefined_metric_specification = {
           predefined_metric_type = "ALBRequestCountPerTarget"
-          resource_label         = "${module.alb.arn_suffix}/${module.alb.target_groups["appserver-blue"].arn_suffix}"
+          resource_label         = "${module.application_alb.arn_suffix}/${module.application_alb.target_groups["appserver-blue"].arn_suffix}"
         }
         target_value = 800
       }
@@ -108,7 +112,7 @@ module "asg_sg" {
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "http-80-tcp"
-      source_security_group_id = module.alb.security_group_id
+      source_security_group_id = module.application_alb.security_group_id
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 1

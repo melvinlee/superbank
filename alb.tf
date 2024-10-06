@@ -16,7 +16,7 @@ module "self_signed_cert" {
   organization       = var.organization
 } 
 
-module "alb" {
+module "application_alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 9.0"
 
