@@ -9,31 +9,31 @@ dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-1')
 table_name = 'AccountBalance'
 table = dynamodb.Table(table_name)
 
-# Ensure the table exists
-try:
-    table.load()
-except ClientError:
-    # Create the table if it does not exist
-    table = dynamodb.create_table(
-        TableName=table_name,
-        KeySchema=[
-            {
-                'AttributeName': 'account_id',
-                'KeyType': 'HASH'
-            }
-        ],
-        AttributeDefinitions=[
-            {
-                'AttributeName': 'account_id',
-                'AttributeType': 'S'
-            }
-        ],
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 5,
-            'WriteCapacityUnits': 5
-        }
-    )
-    table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+# # Ensure the table exists
+# try:
+#     table.load()
+# except ClientError:
+#     # Create the table if it does not exist
+#     table = dynamodb.create_table(
+#         TableName=table_name,
+#         KeySchema=[
+#             {
+#                 'AttributeName': 'account_id',
+#                 'KeyType': 'HASH'
+#             }
+#         ],
+#         AttributeDefinitions=[
+#             {
+#                 'AttributeName': 'account_id',
+#                 'AttributeType': 'S'
+#             }
+#         ],
+#         ProvisionedThroughput={
+#             'ReadCapacityUnits': 5,
+#             'WriteCapacityUnits': 5
+#         }
+#     )
+#     table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
 
 # Sample account ID
 account_id = '1234567890'
