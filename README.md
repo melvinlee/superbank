@@ -14,14 +14,39 @@ Run `terraform init` then `terraform plan` to see what will be created, finally 
 
 ```sh
 terraform init
-terraform plan -var-file=development.tfvars -out=myaws.tfplan
-terraform apply myaws.tfplan
+terraform plan
+terraform apply --auto-approve
 ```
 
+## Tfvars
 
-## Cleanup
-You can cleanup the Terraform-managed infrastructure.
+Using `.tfvars` files in Terraform allows you to manage and organize your variable values separately from your main configuration files. This is particularly useful for managing different environments (e.g., development, staging, production).
+
+Step-by-Step Guide to Using `.tfvars` Files
+
+Create a `.tfvars` File: Create a `.tfvars` file to store your variable values. For example, `development.tfvars`:
 
 ```sh
-terraform destroy -var-file=development.tfvars
+# development.tfvars
+region               = "us-west-2"
+environment          = "development"
+asg_min_size         = 2
+asg_max_size         = 2
+asg_desired_capacity = 2
+
+create_jumphost = true
+```
+
+Use the .tfvars File with Terraform Commands: When running Terraform commands, specify the .tfvars file using the -var-file option:
+
+```sh
+terraform init
+terraform plan -var-file=environments/development.tfvars
+terraform apply -var-file=environments/development.tfvars
+```
+
+Cleanup: To destroy the infrastructure using the same .tfvars file:
+
+```sh
+terraform destroy -var-file=environments/development.tfvars
 ```
