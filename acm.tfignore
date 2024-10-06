@@ -13,7 +13,7 @@ resource "tls_self_signed_cert" "this" {
 
   subject {
     common_name  = var.domain_name
-    organization = "SuperBank, Inc"
+    organization = var.organization
   }
 
   validity_period_hours = 8766 # 1 year

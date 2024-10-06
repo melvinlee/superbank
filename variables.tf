@@ -23,11 +23,44 @@ variable "environment" {
   default     = "development"
 }
 
+##########################################################
+# Using self signed certificate for ALB
+##########################################################
+
+variable "create_self_signed_cert" {
+  description = "Create a self-signed certificate"
+  type        = bool
+  default     = true
+  
+}
+
 variable "domain_name" {
   description = "The domain name for the ALB."
   type        = string
-  default     = "powerbank.com"
+  default     = "api.powerbank.com"
 }
+
+variable "organization" {
+  description = "The organization name for the certificate."
+  type        = string
+  default     = "myBankCo."
+  
+}
+
+##########################################################
+# ALB configuration
+##########################################################
+
+variable "custom_cert_arn" {
+  description = "The ARN of the custom certificate to use for the ALB."
+  type        = string
+  default     = ""
+  
+}
+
+##########################################################
+# Auto scaling group configuration
+##########################################################
 
 variable "app_instance_type" {
   description = "The instance type for the application servers."
@@ -52,6 +85,10 @@ variable "asg_desired_capacity" {
   type        = number
   default     = 1
 }
+
+##########################################################
+# Jump host configuration
+##########################################################
 
 variable "create_jumphost" {
   description = "Create a jumphost instance"

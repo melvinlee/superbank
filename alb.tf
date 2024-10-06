@@ -8,6 +8,14 @@
 #   statuses = ["ISSUED"]
 # }
 
+module "self_signed_cert" {
+  source = "./modules/self-signed-acm"
+
+  create_certificate = var.create_self_signed_cert
+  domain_name        = var.domain_name
+  organization       = var.organization
+} 
+
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 9.0"
@@ -69,7 +77,7 @@ module "alb" {
       port            = 443
       protocol        = "HTTPS"
       ssl_policy      = "ELBSecurityPolicy-TLS13-1-2-Res-2021-06"
-      certificate_arn = aws_acm_certificate.cert.arn
+      certificate_arn =  var.create_self_signed_cert ? module.self_signed_cert.acm_certificate_arn : var.custom_cert_arn
       forward = {
         target_group_key = "appserver-blue"
       }
