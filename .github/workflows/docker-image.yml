@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "release/apps" ]
+    paths:
+      - apps/**
+  pull_request:
+    branches: [ "release/apps" ]
+    paths:
+      - apps/**
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build apps --file apps/Dockerfile --tag cash-api:$(date +%s)
