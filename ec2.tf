@@ -45,7 +45,7 @@ module "jumphost_sg" {
   description = "Security group with SSH ports open for jumphost"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_cidr_blocks = [var.ingress_cidr_blocks]
 
   tags = local.tags
 }

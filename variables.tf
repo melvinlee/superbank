@@ -112,3 +112,9 @@ variable "create_jumphost" {
   default     = false
 
 }
+
+variable "ingress_cidr_blocks" {
+  description = "EC2 Instance Connect service IP addresses CIDR blocks"
+  type        = string
+  default     = "3.0.5.32/29"
+}
