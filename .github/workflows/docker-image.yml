@@ -2,21 +2,32 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "release/apps" ]
+    branches: ["release/apps"]
     paths:
       - apps/**
   pull_request:
-    branches: [ "release/apps" ]
+    branches: ["release/apps"]
     paths:
       - apps/**
 
 jobs:
 
-  build:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2.3.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  build:
+    needs: scan
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build apps --file apps/Dockerfile --tag cash-api:$(date +%s)
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build apps --file apps/Dockerfile --tag cash-api:$(date +%s)
