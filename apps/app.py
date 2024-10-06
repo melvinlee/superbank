@@ -35,33 +35,47 @@ except ClientError:
     )
     table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
 
-def get_balance_from_db(account_id):
+# Sample account ID
+account_id = '1234567890'
+
+def get_balance_from_db():
     try:
         response = table.get_item(Key={'account_id': account_id})
         return response['Item']['balance']
     except KeyError:
         return 0
 
-def update_balance_in_db(account_id, new_balance):
-    table.update_item(
-        Key={'account_id': account_id},
-        UpdateExpression='SET balance = :val',
-        ExpressionAttributeValues={':val': new_balance}
-    )
+def update_balance_in_db(new_balance):
+    table.put_item(Item={'account_id': account_id, 'balance': new_balance})
 
-@app.route('/balance/<account_id>', methods=['GET'])
-def get_balance(account_id):
-    balance = get_balance_from_db(account_id)
-    return jsonify({'account_id': account_id, 'balance': balance})
+@app.route('/', methods=['GET'])
+def get_balance():
+    balance = get_balance_from_db()
+    return jsonify({'balance': balance})
 
-@app.route('/balance/<account_id>', methods=['POST'])
-def update_balance(account_id):
+@app.route('/transaction', methods=['POST'])
+def transaction():
     data = request.get_json()
-    new_balance = data.get('balance')
-    if new_balance is None:
-        return jsonify({'error': 'Balance is required'}), 400
-    update_balance_in_db(account_id, new_balance)
-    return jsonify({'account_id': account_id, 'balance': new_balance})
+    amount = data.get('amount')
+    transaction_type = data.get('type')
+
+    balance = get_balance_from_db()
+
+    if transaction_type == 'deposit':
+        balance += amount
+    elif transaction_type == 'withdraw':
+        if amount > balance:
+            return jsonify({'message': 'Insufficient balance'}), 400
+        balance -= amount
+    else:
+        return jsonify({'message': 'Invalid transaction type'}), 400
+
+    update_balance_in_db(balance)
+    return jsonify({'message': 'Transaction successful'})
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8443)
