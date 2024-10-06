@@ -39,7 +39,7 @@ module "appserver_asg" {
 
   security_groups = [module.asg_sg.security_group_id]
 
-  iam_instance_profile_name = module.instance_profile_dynamodb_for_asg.name
+  iam_instance_profile_name = module.instance_profile_dynamodb.name
   #   iam_instance_profile_arn = aws_iam_instance_profile.ssm.arn
 
   traffic_source_attachments = {
@@ -136,14 +136,3 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-
-module "instance_profile_dynamodb_for_asg" {
-  source = "./modules/instance-profile-dynamodb"
-
-  create_iam_instance_profile = true
-
-  aws_kms_key_arn    = aws_kms_key.primary.arn
-  dynamodb_table_arn = module.dynamodb_table.dynamodb_table_arn
-
-  tags = local.tags
-}
