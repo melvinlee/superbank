@@ -67,3 +67,39 @@ Cleanup: To destroy the infrastructure using the same .tfvars file:
 ```sh
 terraform destroy -var-file=environments/development.tfvars
 ```
+
+## Testing your application
+
+Once the infrastrucutre is provisioned. You can perform curl to the ALB dns. ALB can be queries from the Terraform outputs. 
+
+```sh
+Apply complete! Resources: 61 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+alb_dns_name = "mybank-development-alb-168351812.ap-southeast-1.elb.amazonaws.com"
+```
+
+```sh
+~/Downloads/00/superbank main
+(base) ❯ curl -k -X POST https://mybank-development-alb-168351812.ap-southeast-1.elb.amazonaws.com/transaction -H "Content-Type: application/json" -d '{"amount": 100, "type": "deposit"}'
+{"message":"Transaction successful"}
+```
+
+```sh
+~/Downloads/00/superbank main
+(base) ❯ curl -k https://mybank-development-alb-168351812.ap-southeast-1.elb.amazonaws.com
+{"balance":"100"}
+```
+
+```sh
+~/Downloads/00/superbank main
+(base) ❯ curl -k -X POST https://mybank-development-alb-168351812.ap-southeast-1.elb.amazonaws.com/transaction -H "Content-Type: application/json" -d '{"amount": 900, "type": "deposit"}'
+{"message":"Transaction successful"}
+```
+
+```sh
+~/Downloads/00/superbank main
+(base) ❯ curl -k https://mybank-development-alb-168351812.ap-southeast-1.elb.amazonaws.com
+{"balance":"1000"}
+```
