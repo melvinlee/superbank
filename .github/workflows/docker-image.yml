@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["release/apps"]
+    branches: ["main"]
   pull_request:
-    branches: ["release/apps"]
+    branches: ["main"]
 
 permissions:
   contents: read
