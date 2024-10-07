@@ -36,7 +36,7 @@ jobs:
         output_format: cli,sarif
         output_file_path: console,results.sarif
         skip_check: CKV_DOCKER_2 
-        skip_framework: helm
+        skip_framework: terraform
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
       if: success() || failure()
