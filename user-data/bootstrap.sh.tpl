@@ -11,7 +11,7 @@ service docker start
 usermod -a -G docker ec2-user
 
 # Start docker cash-api
-docker run --platform linux/amd64 -d -p 80:8443 docker.io/melvinlee/cash-api
+docker run --platform linux/amd64 -d -p 80:8443 docker.io/melvinlee/cash-api:0.2.0
 docker container ls 
 
 echo 'Done initialization'

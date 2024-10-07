@@ -163,3 +163,13 @@ variable "create_iam_instance_profile" {
   type        = bool
   default     = true
 }
+
+##########################################################
+# WAFv2 WebACL configuration
+##########################################################
+
+variable "create_waf" {
+  description = "Create a WAFv2 WebACL"
+  type        = bool
+  default     = false
+} 
