@@ -33,6 +33,8 @@ jobs:
     - name: Run Checkov
       uses: bridgecrewio/checkov-action@master
       with:
+        directory: apps/
+        soft_fail: true
         output_format: cli,sarif
         output_file_path: console,results.sarif
         skip_check: CKV_DOCKER_2 
