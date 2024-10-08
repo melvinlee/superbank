@@ -4,7 +4,7 @@
 
 module "s3_flow_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   bucket        = local.s3_flow_bucket_name
   policy        = data.aws_iam_policy_document.flow_log_s3.json
@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "flow_log_s3" {
 
 module "s3_log_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   bucket        = local.s3_alb_log_bucket_name
   acl           = "log-delivery-write"
