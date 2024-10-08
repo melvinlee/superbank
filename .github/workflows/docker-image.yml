@@ -33,7 +33,6 @@ jobs:
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: apps/
           soft_fail: true
           output_format: cli,sarif
           output_file_path: console,results.sarif
@@ -48,7 +47,7 @@ jobs:
   build:
     needs: checkov-scan
     runs-on: ubuntu-latest
-
+    if: always()
     steps:
       - uses: actions/checkout@v4
       - name: Build the Docker image
