@@ -1,6 +1,6 @@
 # Define variables
 IMAGE_NAME = cash-api
-IMAGE_TAG = latest
+IMAGE_TAG = 0.1-db
 CONTAINER_NAME = cash-api-container
 PORT = 80
 DOCKER_USERNAME = melvinlee
@@ -8,7 +8,7 @@ DOCKER_REPO = docker.io/$(DOCKER_USERNAME)/$(IMAGE_NAME)
 
 # Build the Docker image
 build:
-	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
+	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) . --platform=linux/amd64 
 
 # Tag the Docker image for Docker Hub
 tag:

@@ -2,11 +2,11 @@
 # S3 Bucket for VPC Flow Logs and ALB Logs
 ##################################################################
 
-module "s3_bucket" {
+module "s3_flow_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
-  bucket        = local.s3_bucket_name
+  bucket        = local.s3_flow_bucket_name
   policy        = data.aws_iam_policy_document.flow_log_s3.json
   force_destroy = true
 
@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "flow_log_s3" {
 
     actions = ["s3:PutObject"]
 
-    resources = ["arn:aws:s3:::${local.s3_bucket_name}/AWSLogs/*"]
+    resources = ["arn:aws:s3:::${local.s3_flow_bucket_name}/AWSLogs/*"]
   }
 
   statement {
@@ -37,17 +37,16 @@ data "aws_iam_policy_document" "flow_log_s3" {
 
     actions = ["s3:GetBucketAcl"]
 
-    resources = ["arn:aws:s3:::${local.s3_bucket_name}"]
+    resources = ["arn:aws:s3:::${local.s3_flow_bucket_name}"]
   }
 }
 
-module "log_bucket" {
+module "s3_log_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
-  bucket_prefix = "${local.name}-logs-"
+  bucket        = local.s3_alb_log_bucket_name
   acl           = "log-delivery-write"
-
   force_destroy = true
 
   control_object_ownership = true

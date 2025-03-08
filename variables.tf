@@ -112,3 +112,64 @@ variable "create_jumphost" {
   default     = false
 
 }
+
+variable "ingress_cidr_blocks" {
+  description = "EC2 Instance Connect service IP addresses CIDR blocks"
+  type        = string
+  default     = "3.0.5.32/29"
+}
+
+
+##########################################################
+# DynamoDB configuration
+##########################################################
+
+variable "create_table" {
+  description = "Create a DynamoDB table for AccountBalance"
+  type        = bool
+  default     = true
+  
+}
+variable "read_capacity" {
+  description = "The read capacity for the DynamoDB table"
+  type        = number
+  default     = 0
+}
+
+variable "write_capacity" {
+  description = "The write capacity for the DynamoDB table"
+  type        = number
+  default     = 0
+}
+
+variable "autoscaling_enabled" {
+  description = "Enable autoscaling for the DynamoDB table"
+  type        = bool
+  default     = false
+}
+
+variable "deletion_protection_enabled" {
+  description = "Enable deletion protection for the DynamoDB table"
+  type        = bool
+  default     = false   
+}
+
+##########################################################
+# Instance Profile configuration
+##########################################################
+
+variable "create_iam_instance_profile" {
+  description = "Create an IAM instance profile for the EC2 instances"
+  type        = bool
+  default     = true
+}
+
+##########################################################
+# WAFv2 WebACL configuration
+##########################################################
+
+variable "create_waf" {
+  description = "Create a WAFv2 WebACL"
+  type        = bool
+  default     = false
+} 

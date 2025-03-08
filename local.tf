@@ -14,8 +14,8 @@ locals {
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
-  s3_bucket_name = "${local.name}-vpc-flow-logs-to-s3"
-
+  s3_flow_bucket_name    = "${local.name}-vpc-flow-logs-to-s3"
+  s3_alb_log_bucket_name = "${local.name}-alb-logs-to-s3"
   tags = {
     app         = local.name
     environment = local.environment

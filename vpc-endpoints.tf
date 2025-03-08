@@ -42,6 +42,16 @@ module "vpc_endpoints" {
 
 data "aws_iam_policy_document" "dynamodb_endpoint_policy" {
   statement {
+    effect    = "Allow"
+    actions   = ["dynamodb:*"]
+    resources = ["*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+  statement {
     effect    = "Deny"
     actions   = ["dynamodb:*"]
     resources = ["*"]
