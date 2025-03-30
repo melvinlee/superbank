@@ -18,7 +18,7 @@ locals {
 
 module "ec2_jumphost" {
   source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "~> 5.7.0"
+  version = "~> 5.8.0"
 
   create = var.create_jumphost
   name   = "${local.environment}-jumphost"
