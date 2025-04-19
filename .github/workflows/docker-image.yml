@@ -58,4 +58,4 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push the Docker image
-        run: docker buildx build apps -f apps/Dockerfile -t ghcr.io/${{ github.repository_owner }}/cash-api:$(date +%s) --push
+        run: docker buildx build apps -f apps/Dockerfile -t ghcr.io/${{ github.repository_owner }}/cash-api:$(date +%s) --platform linux/amd64,linux/arm/v7,linux/arm64 --push
