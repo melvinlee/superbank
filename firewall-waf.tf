@@ -4,7 +4,7 @@
 
 module "wafv2" {
   source  = "aws-ss/wafv2/aws"
-  version = "~> 3.2.0"
+  version = "~> 3.8.0"
 
   count = var.create_waf ? 1 : 0
 
