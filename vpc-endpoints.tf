@@ -4,7 +4,7 @@
 
 module "vpc_endpoints" {
   source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
-  version = "~> 5.13.0"
+  version = "~> 5.21.0"
 
   create = var.create_vpn_endpoints
 
