@@ -20,7 +20,7 @@ locals {
 
 module "appserver_asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
-  version = "~> 8.0.0"
+  version = "~> 8.3.0"
 
   # Autoscaling group
   name = "${local.environment}-appserver"
