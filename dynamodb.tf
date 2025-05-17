@@ -4,7 +4,7 @@
 
 module "dynamodb_table" {
   source  = "terraform-aws-modules/dynamodb-table/aws"
-  version = "~> 4.1.0"
+  version = "~> 4.4.0"
 
   create_table = var.create_table
 
